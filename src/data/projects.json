@@ -1,0 +1,251 @@
+[
+  {
+    "id": "proj-1",
+    "slug": "ev-charger-mobile-ble",
+    "title": "Smart EV Charger Mobile App & BLE Protocol",
+    "subtitle": "Cross-platform React Native app with direct Bluetooth Low Energy charging control, real-time power telemetry, and cloud synchronization.",
+    "category": "mobile",
+    "featured": true,
+    "order": 1,
+    "thumbnail": "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1558441719-7036a1617c5b?auto=format&fit=crop&w=1600&q=80",
+    "tags": ["React Native", "BLE", "TypeScript", "WebSocket", "Django", "Redux Toolkit"],
+    "company": {
+      "name": "EVI Technologies",
+      "role": "Lead Mobile & IoT Software Engineer",
+      "engagementType": "Full-time",
+      "duration": "2023 - Present",
+      "location": "New Delhi, India"
+    },
+    "links": {
+      "liveUrl": "https://evitechnologies.com",
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "linkedInUrl": "https://www.linkedin.com/in/harshit13777",
+      "playStoreUrl": "https://play.google.com"
+    },
+    "testimonial": {
+      "quote": "Harshit built our primary mobile-to-charger BLE communication layer from scratch. He reduced peripheral connection drop rates significantly and delivered a butter-smooth user experience.",
+      "author": "Engineering Director",
+      "title": "VP of Technology",
+      "company": "EVI Technologies",
+      "linkedInProfile": "https://linkedin.com"
+    },
+    "caseStudy": {
+      "overview": "Electric Vehicle charging stations often operate in underground parking decks or rural charging corridors where cellular connectivity is intermittent or completely absent. The project aimed to deliver a zero-friction mobile experience allowing EV drivers to initiate charging sessions, monitor power draw in real-time, and process transactions entirely via local BLE when offline, seamlessly syncing with AWS once reconnected.",
+      "challenge": "Fragmented Bluetooth stacks across budget Android devices caused frequent packet drops and MTU negotiation failures. Additionally, handling bidirectional state reconciliation between the hardware microcontroller, local device SQLite, and the remote Django backend without duplicate billing transactions was critical.",
+      "solution": "Architected a state-machine based BLE connection manager in React Native using reactive queues. Implemented custom packet chunking with CRC checksum verification, alongside an offline-first transaction queue that commits state locally to SQLite and executes idempotent sync payloads when network connectivity resumes.",
+      "architecturePoints": [
+        "React Native client with a custom Nordic Semiconductor BLE abstraction layer",
+        "Deterministic finite state machine (FSM) managing scanning, pairing, bonding, and telemetry subscriptions",
+        "Local SQLite cache using optimistic UI updates for instant interaction feedback",
+        "Django REST Framework backend with Redis pub/sub for live cloud telemetry relays"
+      ],
+      "engineeringHighlights": [
+        "Engineered reliable BLE reconnection algorithms achieving 99.4% first-attempt pairing success across 50+ tested Android & iOS devices",
+        "Designed an event-driven telemetry stream updating voltage, current, and SoC at 5Hz with negligible battery drain",
+        "Implemented end-to-end payload encryption over GATT characteristics to prevent replay attacks on charging activation commands"
+      ],
+      "results": [
+        { "label": "Connection Latency", "value": "< 1.2s avg" },
+        { "label": "Offline Resilience", "value": "100% Zero-Loss" },
+        { "label": "Play Store Rating", "value": "4.7 ★" },
+        { "label": "Active Users", "value": "15,000+" }
+      ]
+    },
+    "publishedAt": "2024-03-15T00:00:00Z"
+  },
+  {
+    "id": "proj-2",
+    "slug": "medical-device-telemetry-scanner",
+    "title": "Offline-First Medical Diagnostic Telemetry App",
+    "subtitle": "HIPAA-compliant diagnostic application capturing raw patient telemetry over Bluetooth, analyzing metrics on-device, and syncing securely with cloud EMRs.",
+    "category": "mobile",
+    "featured": true,
+    "order": 2,
+    "thumbnail": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1600&q=80",
+    "tags": ["React Native", "BLE", "SQLite", "Data Encryption", "TypeScript", "Offline-First"],
+    "company": {
+      "name": "HealthTech Client (Under NDA)",
+      "role": "Senior Mobile App Consultant",
+      "engagementType": "Client Project (NDA)",
+      "duration": "4 Months Contract",
+      "location": "Remote"
+    },
+    "links": {
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "linkedInUrl": "https://www.linkedin.com/in/harshit13777",
+      "docsUrl": "https://github.com"
+    },
+    "testimonial": {
+      "quote": "Harshit's mastery of Bluetooth hardware communication and strict data integrity under offline conditions was pivotal to passing our medical certification trials.",
+      "author": "Chief Product Officer",
+      "title": "Co-Founder",
+      "company": "MedTech Ventures",
+      "linkedInProfile": "https://linkedin.com"
+    },
+    "caseStudy": {
+      "overview": "Healthcare workers in rural clinics needed a mobile tool to interface with handheld diagnostic blood-analysis and vitals monitoring hardware. The app needed to function flawlessly in zero-connectivity environments, encrypt sensitive patient health records locally, and synchronize with hospital electronic medical record (EMR) databases automatically.",
+      "challenge": "Medical sensor data streaming generated bursts of raw hex telemetry that risked dropping packets on low-tier smartphones. In addition, regulatory compliance mandated that unencrypted health data must never persist in plaintext at rest or in memory dumps.",
+      "solution": "Built a high-throughput binary parser in TypeScript leveraging TypedArrays and ArrayBuffers for sub-millisecond telemetry deserialization. Integrated SQLCipher with AES-256 database-level encryption, paired with an incremental sync worker running in background threads.",
+      "architecturePoints": [
+        "High-performance ArrayBuffer parsing layer translating GATT byte streams directly into structured patient records",
+        "SQLCipher zero-knowledge local encrypted database with automated key rotation",
+        "Background sync worker with exponential backoff and cryptographic signature validation",
+        "Custom SVG charts rendering high-frequency vital curves at 60 FPS without UI jank"
+      ],
+      "engineeringHighlights": [
+        "Zero packet loss across 100,000+ continuous streaming frames during medical bench verification",
+        "Sub-100ms on-device statistical calculation of vital thresholds before upload",
+        "Passed third-party security audits for patient data isolation and cryptographic storage"
+      ],
+      "results": [
+        { "label": "Data Integrity", "value": "100% Bit-Accurate" },
+        { "label": "Parse Throughput", "value": "10k records/s" },
+        { "label": "Compliance", "value": "HIPAA Verified" },
+        { "label": "Clinic Deployments", "value": "40+ Sites" }
+      ]
+    },
+    "publishedAt": "2024-01-20T00:00:00Z"
+  },
+  {
+    "id": "proj-3",
+    "slug": "smart-charging-load-optimizer",
+    "title": "Smart EV Dynamic Load Optimization Engine",
+    "subtitle": "Intelligent distributed current balancing and grid demand-response system orchestrating EV charging clusters to eliminate electrical overload.",
+    "category": "iot",
+    "featured": true,
+    "order": 3,
+    "thumbnail": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1600&q=80",
+    "tags": ["Spring Boot", "Java", "WebSocket", "Docker", "PostgreSQL", "Time-Series Data"],
+    "company": {
+      "name": "EVI Technologies",
+      "role": "IoT & Backend Systems Engineer",
+      "engagementType": "Full-time",
+      "duration": "2023 - 2024",
+      "location": "New Delhi, India"
+    },
+    "links": {
+      "liveUrl": "https://evitechnologies.com",
+      "linkedInUrl": "https://www.linkedin.com/in/harshit13777",
+      "githubUrl": "https://github.com"
+    },
+    "caseStudy": {
+      "overview": "Commercial fleet depots and condominium complexes face strict electrical transformer limits. If multiple high-power EV chargers draw peak current simultaneously, main circuit breakers trip, causing severe outages. This project delivered an automated load-balancing engine that dynamically throttles individual charger current allocations in real-time based on total grid capacity and vehicle battery priorities.",
+      "challenge": "Computing optimal dynamic current quotas across 50+ active charging guns every 2 seconds with sub-second feedback loops, while maintaining graceful degradation during network dropouts between local gateway controllers and the cloud.",
+      "solution": "Designed a weighted proportional-fairness current allocation algorithm in Spring Boot with bi-directional WebSocket telemetry channels. Introduced edge fallback logic on local gateway microservices to guarantee safe emergency power limits if cloud communication is severed.",
+      "architecturePoints": [
+        "Concurrent Spring Boot engine processing telemetry via reactive WebSocket handlers",
+        "Priority-weighted optimization algorithm allocating current based on departure time and battery SoC",
+        "Redis memory cache for millisecond-level state retrieval of active charging sessions",
+        "Dockerized microservices deployment with automated health probing and failover"
+      ],
+      "engineeringHighlights": [
+        "Reduced fleet grid demand peaks by 38%, saving commercial operators thousands in monthly utility demand surcharges",
+        "Maintained sub-500ms algorithm execution cycles across 100+ concurrent charging connectors",
+        "Engineered fail-safe hardware watchdog protocols that revert to safe baseline current within 3 seconds of connection loss"
+      ],
+      "results": [
+        { "label": "Peak Demand Cut", "value": "38% Reduction" },
+        { "label": "Cycle Response", "value": "< 450ms" },
+        { "label": "Uptime", "value": "99.98%" },
+        { "label": "Managed Connectors", "value": "500+" }
+      ]
+    },
+    "publishedAt": "2023-11-10T00:00:00Z"
+  },
+  {
+    "id": "proj-4",
+    "slug": "metadata-workflow-automation-engine",
+    "title": "Metadata-Driven Business Workflow Engine",
+    "subtitle": "Distributed, event-driven workflow automation platform executing configurable business processes, scheduled tasks, and multi-step third-party integrations.",
+    "category": "automation",
+    "featured": true,
+    "order": 4,
+    "thumbnail": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=80",
+    "tags": ["Python", "Django", "AWS Lambda", "Celery", "Redis", "Event-Driven"],
+    "company": {
+      "name": "Veblika Software",
+      "role": "Full-Stack Software Engineer",
+      "engagementType": "Full-time",
+      "duration": "2022 - 2023",
+      "location": "Jaipur, India"
+    },
+    "links": {
+      "liveUrl": "https://veblika.com",
+      "linkedInUrl": "https://www.linkedin.com/in/harshit13777",
+      "githubUrl": "https://github.com"
+    },
+    "caseStudy": {
+      "overview": "Enterprise clients required custom multi-step approval workflows, automated notification triggers, and document transformations without modifying core application code for every new business rule. The solution was a metadata-driven workflow platform that parses declarative JSON rule trees and executes distributed jobs asynchronously.",
+      "challenge": "Executing arbitrarily complex conditional workflows (branching, loops, delays, webhooks) while guaranteeing exactly-once execution semantics and complete auditability across distributed Celery worker pools.",
+      "solution": "Built a Directed Acyclic Graph (DAG) execution parser in Django and Python. Wrapped task triggers in idempotent job wrappers backed by distributed Redis locks and AWS Lambda worker executors.",
+      "architecturePoints": [
+        "DAG rule engine evaluating execution graphs and branching conditions dynamically",
+        "Distributed Celery task pipeline with Redis broker and dead-letter queues",
+        "Serverless AWS Lambda runners for isolated third-party webhook invocations",
+        "Comprehensive execution audit trail tracking every step transition and input/output payload"
+      ],
+      "engineeringHighlights": [
+        "Eliminated manual developer interventions for custom client workflow configurations, saving ~20 engineering hours weekly",
+        "Achieved 99.99% task execution reliability with automatic retry exponential backoff",
+        "Implemented real-time execution visualizer showing running, failed, and succeeded nodes via WebSockets"
+      ],
+      "results": [
+        { "label": "Engineering Hours Saved", "value": "20 hrs/wk" },
+        { "label": "Execution Latency", "value": "< 80ms per node" },
+        { "label": "Daily Tasks Handled", "value": "250,000+" },
+        { "label": "Reliability", "value": "99.99%" }
+      ]
+    },
+    "publishedAt": "2023-06-01T00:00:00Z"
+  },
+  {
+    "id": "proj-5",
+    "slug": "hardware-diagnostics-serial-tool",
+    "title": "Multi-Threaded USB Serial Hardware Diagnostic Suite",
+    "subtitle": "Desktop diagnostics and firmware provisioning tool communicating directly with embedded microcontrollers over raw USB Serial UART.",
+    "category": "iot",
+    "featured": false,
+    "order": 5,
+    "thumbnail": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1600&q=80",
+    "tags": ["Python", "PyQt", "Serial UART", "Multi-Threading", "Embedded Systems"],
+    "company": {
+      "name": "EVI Technologies",
+      "role": "Embedded Tools & Software Engineer",
+      "engagementType": "Full-time",
+      "duration": "2023",
+      "location": "New Delhi, India"
+    },
+    "links": {
+      "githubUrl": "https://github.com",
+      "linkedInUrl": "https://www.linkedin.com/in/harshit13777"
+    },
+    "caseStudy": {
+      "overview": "Factory line technicians and field engineers needed a rapid, bulletproof tool to verify PCB hardware, test analog relays, flash firmware updates, and inspect diagnostic logs on new EV charging controller boards before customer dispatch.",
+      "challenge": "High-baud UART serial feeds (up to 921600 baud) frequently caused UI freezing when parsed on single-threaded scripts, leading to missed diagnostic error codes during high-speed sensor sampling.",
+      "solution": "Architected a multi-threaded desktop application with dedicated I/O worker threads for lock-free ring-buffer packet ingestion, completely decoupling raw serial byte reads from GUI chart and log rendering.",
+      "architecturePoints": [
+        "Dedicated POSIX/Windows serial communication worker thread with lockless circular ring-buffer",
+        "Deterministic frame parser with automatic baud-rate detection and hardware handshake negotiation",
+        "Real-time oscilloscope-style plotting of power readings at 60 FPS",
+        "One-click automated flashing script supporting ST-Link and J-Link debuggers"
+      ],
+      "engineeringHighlights": [
+        "Reduced pre-shipment factory QA testing time per board from 25 minutes down to 4 minutes",
+        "Captured and logged 100% of intermittent hardware fault events during 48-hour continuous burn-in tests",
+        "Deployed across multiple assembly lines with zero technician training curve"
+      ],
+      "results": [
+        { "label": "QA Test Time", "value": "84% Faster (4 min)" },
+        { "label": "Baud Rate Support", "value": "Up to 921.6k" },
+        { "label": "Factory Yield", "value": "99.2%" },
+        { "label": "Boards Verified", "value": "5,000+" }
+      ]
+    },
+    "publishedAt": "2023-04-12T00:00:00Z"
+  }
+]
