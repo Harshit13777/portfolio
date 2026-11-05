@@ -15,33 +15,33 @@ export default async function HomePage() {
 
   return (
     <div className="w-full flex flex-col">
-      {/* 1. Hero Section (Clean canvas with subtle ambient gradient) */}
-      <section className="w-full bg-gradient-to-b from-background via-background to-zinc-50/60 dark:to-zinc-950/40 border-b border-zinc-200/60 dark:border-zinc-800/60 pb-16 pt-6">
+      {/* 1. Hero Section (Clean studio open canvas with ambient radial glow) */}
+      <section className="w-full bg-gradient-to-b from-white via-zinc-50/80 to-slate-100/60 dark:from-background dark:via-zinc-950 dark:to-zinc-900/90 border-b border-zinc-200/60 dark:border-zinc-800/60 pb-16 pt-6">
         <HeroSection />
       </section>
 
-      {/* 2. Animated Skills & Tech Marquee Ticker (Contrasting modern tech strip) */}
-      <section className="w-full bg-zinc-100/70 dark:bg-zinc-900/40 border-b border-zinc-200/80 dark:border-zinc-800/80 py-12 sm:py-16">
+      {/* 2. Animated Skills & Tech Marquee Ticker (Distinct Cool Slate Wash) */}
+      <section className="w-full bg-slate-100/90 dark:bg-slate-950/80 border-b border-slate-200/90 dark:border-slate-800/80 py-12 sm:py-16">
         <SkillsTicker />
       </section>
 
-      {/* 3. Featured Production Projects Showcase (Deep cinematic exhibition canvas for horizontal scroll) */}
-      <section className="w-full bg-zinc-50/80 dark:bg-black border-b border-zinc-200/80 dark:border-zinc-800">
+      {/* 3. Featured Production Projects Showcase (Deep Cinematic Showroom Canvas) */}
+      <section className="w-full bg-zinc-950 text-white dark:bg-black dark:text-white border-b border-zinc-800 dark:border-zinc-900">
         <FeaturedProjectsSection projects={featuredProjects} />
       </section>
 
-      {/* 4. Freelance Services & Value Prop (Structured slate surface with high readability) */}
-      <section className="w-full bg-white dark:bg-zinc-950/70 border-b border-zinc-200/80 dark:border-zinc-800/80 py-20 sm:py-28">
+      {/* 4. Freelance Services & Value Prop (Distinct Warm Stone / Sand Tone) */}
+      <section className="w-full bg-stone-50/90 dark:bg-stone-950/60 border-b border-stone-200/80 dark:border-stone-850/80 py-20 sm:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-zinc-50/70 dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-zinc-800/80 p-8 sm:p-12 shadow-sm">
+          <div className="rounded-3xl bg-white/90 dark:bg-stone-900/50 border border-stone-200/90 dark:border-stone-800/80 p-8 sm:p-12 shadow-sm">
             <div className="max-w-2xl mb-10">
               <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
                 Freelance & Advisory
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 mt-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 mt-2">
                 How I Help Startups & Engineering Teams
               </h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              <p className="text-sm text-stone-600 dark:text-stone-400 mt-2 leading-relaxed">
                 From building high-stakes Bluetooth mobile apps to standing up resilient backend microservices, here are the core capabilities I offer on contract.
               </p>
             </div>
@@ -50,23 +50,23 @@ export default async function HomePage() {
               {FREELANCE_SERVICES.map((service) => (
                 <div
                   key={service.id}
-                  className="p-6 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800 hover:border-accent/40 dark:hover:border-zinc-700 transition-all flex flex-col justify-between group shadow-sm"
+                  className="p-6 rounded-2xl bg-stone-50/70 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 hover:border-accent/40 dark:hover:border-stone-700 transition-all flex flex-col justify-between group shadow-sm"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-accent-muted text-accent border border-accent-muted">
                         {service.badge}
                       </span>
-                      <span className="text-xs text-zinc-500 font-mono">{service.timeline}</span>
+                      <span className="text-xs text-stone-500 font-mono">{service.timeline}</span>
                     </div>
-                    <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 mb-2 group-hover:text-accent transition-colors">
+                    <h3 className="text-base font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-accent transition-colors">
                       {service.title}
                     </h3>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+                    <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed mb-4">
                       {service.summary}
                     </p>
                   </div>
-                  <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800/80">
+                  <div className="pt-4 border-t border-stone-200 dark:border-stone-800/80">
                     <Link
                       href="/services"
                       className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:underline"
@@ -79,13 +79,13 @@ export default async function HomePage() {
               ))}
             </div>
 
-            <div className="mt-8 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="mt-8 pt-8 border-t border-stone-200 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-xs text-stone-600 dark:text-stone-400">
                 Need a custom scope or technical evaluation? Let’s schedule a 30-minute discovery call.
               </p>
               <Link
                 href="/services"
-                className="px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-semibold transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 text-xs font-semibold transition-colors"
               >
                 Explore Services & Process →
               </Link>
@@ -94,18 +94,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5. Career Experience Timeline (Dynamic 3D flip canvas) */}
-      <section className="w-full bg-white dark:bg-black border-b border-zinc-200/60 dark:border-zinc-800/60 py-20 sm:py-28">
+      {/* 5. Career Experience Timeline (Distinct Midnight Navy / Ice Blue Tone) */}
+      <section className="w-full bg-blue-50/40 dark:bg-blue-950/25 border-b border-blue-200/60 dark:border-blue-900/40 py-20 sm:py-28">
         <ExperienceTimeline />
       </section>
 
-      {/* 6. Feedback & Client Endorsements Bar (Infinite Marquee just above Contact) */}
-      <section className="w-full bg-zinc-100/60 dark:bg-zinc-950/70 border-b border-zinc-200/80 dark:border-zinc-800/80 py-16 sm:py-24">
+      {/* 6. Feedback & Client Endorsements Bar (Distinct Warm Golden Amber Tone) */}
+      <section className="w-full bg-amber-50/50 dark:bg-amber-950/20 border-b border-amber-200/60 dark:border-amber-900/40 py-16 sm:py-24">
         <FeedbackMarquee />
       </section>
 
-      {/* 7. Call To Action & Contact Banner */}
-      <section className="w-full bg-gradient-to-b from-zinc-50/50 to-background dark:from-zinc-950/40 dark:to-background py-20 sm:py-28">
+      {/* 7. Call To Action & Contact Banner (Accent Aurora Gradient Finale) */}
+      <section className="w-full bg-gradient-to-b from-zinc-100/80 via-white to-background dark:from-zinc-900/90 dark:via-zinc-950 dark:to-background py-20 sm:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl bg-gradient-to-r from-zinc-100 via-white to-zinc-50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900 border border-zinc-200/90 dark:border-zinc-800 p-8 sm:p-12 overflow-hidden text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 shadow-sm">
             <div className="max-w-xl">
