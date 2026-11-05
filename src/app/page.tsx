@@ -9,44 +9,69 @@ import { FeaturedProjectsSection } from '@/components/home/FeaturedProjectsSecti
 import { FreelanceAdvisorySection } from '@/components/home/FreelanceAdvisorySection';
 import { ExperienceTimeline } from '@/components/home/ExperienceTimeline';
 import { FeedbackMarquee } from '@/components/home/FeedbackMarquee';
+import { ScrollAvatarCompanion } from '@/components/home/ScrollAvatarCompanion';
 
 export default async function HomePage() {
   const featuredProjects = await getFeaturedProjects();
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col relative">
+      {/* 3D WebGL Avatar Companion (Fixed across sections, lazy-loaded) */}
+      <ScrollAvatarCompanion />
+
       {/* 1. Hero Section (Clean studio open canvas with ambient radial glow) */}
-      <section className="w-full bg-gradient-to-b from-white via-zinc-50/80 to-slate-100/60 dark:from-background dark:via-zinc-950 dark:to-zinc-900/90 border-b border-zinc-200/60 dark:border-zinc-800/60 pb-16 pt-6">
+      <section 
+        id="section-hero"
+        className="w-full bg-gradient-to-b from-white via-zinc-50/80 to-slate-100/60 dark:from-background dark:via-zinc-950 dark:to-zinc-900/90 border-b border-zinc-200/60 dark:border-zinc-800/60 pb-16 pt-6"
+      >
         <HeroSection />
       </section>
 
       {/* 2. Animated Skills & Tech Marquee Ticker (Distinct Cool Slate Wash) */}
-      <section className="w-full bg-slate-100/90 dark:bg-slate-950/80 border-b border-slate-200/90 dark:border-slate-800/80 py-12 sm:py-16">
+      <section 
+        id="section-skills"
+        className="w-full bg-slate-100/90 dark:bg-slate-950/80 border-b border-slate-200/90 dark:border-slate-800/80 py-12 sm:py-16"
+      >
         <SkillsTicker />
       </section>
 
       {/* 3. Featured Production Projects Showcase (Deep Cinematic Showroom Canvas) */}
-      <section className="w-full bg-zinc-950 text-white dark:bg-black dark:text-white border-b border-zinc-800 dark:border-zinc-900">
+      <section 
+        id="section-projects"
+        className="w-full bg-zinc-950 text-white dark:bg-black dark:text-white border-b border-zinc-800 dark:border-zinc-900"
+      >
         <FeaturedProjectsSection projects={featuredProjects} />
       </section>
 
       {/* 4. Freelance Services & Scope Studio (Interactive Blueprint & Estimator) */}
-      <section className="w-full bg-stone-50/90 dark:bg-stone-950/60 border-b border-stone-200/80 dark:border-stone-850/80 py-16 sm:py-24">
+      <section 
+        id="section-services"
+        className="w-full bg-stone-50/90 dark:bg-stone-950/60 border-b border-stone-200/80 dark:border-stone-850/80 py-16 sm:py-24"
+      >
         <FreelanceAdvisorySection />
       </section>
 
       {/* 5. Career Experience Timeline (Distinct Midnight Navy / Ice Blue Tone) */}
-      <section className="w-full bg-blue-50/40 dark:bg-blue-950/25 border-b border-blue-200/60 dark:border-blue-900/40 py-20 sm:py-28">
+      <section 
+        id="section-experience"
+        className="w-full bg-blue-50/40 dark:bg-blue-950/25 border-b border-blue-200/60 dark:border-blue-900/40 py-20 sm:py-28"
+      >
         <ExperienceTimeline />
       </section>
 
       {/* 6. Feedback & Client Endorsements Bar (Distinct Warm Golden Amber Tone) */}
-      <section className="w-full bg-amber-50/50 dark:bg-amber-950/20 border-b border-amber-200/60 dark:border-amber-900/40 py-16 sm:py-24">
+      <section 
+        id="section-feedback"
+        className="w-full bg-amber-50/50 dark:bg-amber-950/20 border-b border-amber-200/60 dark:border-amber-900/40 py-16 sm:py-24"
+      >
         <FeedbackMarquee />
       </section>
 
       {/* 7. Call To Action & Contact Banner (Accent Aurora Gradient Finale) */}
-      <section className="w-full bg-gradient-to-b from-zinc-100/80 via-white to-background dark:from-zinc-900/90 dark:via-zinc-950 dark:to-background py-20 sm:py-28">
+      <section 
+        id="section-cta"
+        className="w-full bg-gradient-to-b from-zinc-100/80 via-white to-background dark:from-zinc-900/90 dark:via-zinc-950 dark:to-background py-20 sm:py-28"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl bg-gradient-to-r from-zinc-100 via-white to-zinc-50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900 border border-zinc-200/90 dark:border-zinc-800 p-8 sm:p-12 overflow-hidden text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 shadow-sm">
             <div className="max-w-xl">
