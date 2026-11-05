@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Search, Filter, Layers, Smartphone, Cpu, Zap, Briefcase } from 'lucide-react';
 import { ProjectSummary } from '@/types/project';
 import { ProjectCard } from '@/components/ui/ProjectCard';
@@ -24,9 +25,19 @@ const ENGAGEMENTS: { id: string; label: string }[] = [
 ];
 
 export function ProjectsDirectory({ projects }: Props) {
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get('search') || searchParams.get('tag') || '';
+
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedEngagement, setSelectedEngagement] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
+
+  useEffect(() => {
+    const q = searchParams.get('search') || searchParams.get('tag');
+    if (q) {
+      setSearchQuery(q);
+    }
+  }, [searchParams]);
 
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {

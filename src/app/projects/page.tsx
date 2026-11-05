@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { getAllProjects } from '@/lib/projects.service';
 import { ProjectsDirectory } from '@/components/projects/ProjectsDirectory';
@@ -27,7 +27,9 @@ export default async function ProjectsPage() {
       </div>
 
       {/* Filterable Directory */}
-      <ProjectsDirectory projects={projects} />
+      <Suspense fallback={<div className="py-12 text-center text-sm text-zinc-500 font-mono">Loading projects archive...</div>}>
+        <ProjectsDirectory projects={projects} />
+      </Suspense>
     </div>
   );
 }
