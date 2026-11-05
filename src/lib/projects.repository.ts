@@ -1,9 +1,20 @@
 import { 
   ProjectDetail, 
   ProjectSummary, 
-  ProjectFilter 
+  ProjectFilter,
+  TechStackFilterData,
+  TechTagMeta,
+  TechStackDomainMeta,
+  EngagementTypeMeta
 } from '@/types/project';
 import rawProjectsJson from '@/data/projects.json';
+import rawSkillsJson from '@/data/skills.json';
+
+interface SkillJsonTrack {
+  id: string;
+  category: string;
+  items: { name: string }[];
+}
 
 /**
  * Formal Repository Interface Contract
@@ -28,6 +39,12 @@ export interface IProjectRepository {
 
   /** Fetch adjacent projects for previous/next navigation */
   getAdjacentProjects(slug: string): Promise<{ prev: ProjectSummary | null; next: ProjectSummary | null }>;
+
+  /** Fetch dynamically computed tech stack filter options */
+  getTechStackFilters(): Promise<TechStackFilterData>;
+
+  /** Fetch dynamically computed engagement types */
+  getEngagementTypes(): Promise<EngagementTypeMeta[]>;
 }
 
 /**
@@ -76,6 +93,12 @@ export class JsonProjectRepository implements IProjectRepository {
       result = result.filter((p) => p.category === filter.category);
     }
 
+    if (filter?.tag && filter.tag !== 'all') {
+      result = result.filter((p) => 
+        p.tags.some((t) => t.toLowerCase() === filter.tag!.toLowerCase())
+      );
+    }
+
     if (filter?.engagementType && filter.engagementType !== 'all') {
       result = result.filter((p) => p.company.engagementType === filter.engagementType);
     }
@@ -92,6 +115,95 @@ export class JsonProjectRepository implements IProjectRepository {
     }
 
     return result.map(toProjectSummary);
+  }
+
+  async getTechStackFilters(): Promise<TechStackFilterData> {
+    const rawSkills = rawSkillsJson as unknown as SkillJsonTrack[];
+    
+    // 1. Calculate tag frequency from all projects
+    const tagCountMap = new Map<string, number>();
+    for (const p of this.projects) {
+      for (const t of p.tags) {
+        tagCountMap.set(t, (tagCountMap.get(t) || 0) + 1);
+      }
+    }
+
+    // Popular tags sorted by usage frequency descending
+    const popularTags: TechTagMeta[] = Array.from(tagCountMap.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+
+    // 2. Build Tech Stack Domains
+    // Helper to test if a project tag relates to a skill track
+    const domainMatchesTag = (trackItems: string[], tag: string): boolean => {
+      const lowerTag = tag.toLowerCase();
+      return trackItems.some((skill) => {
+        const lowerSkill = skill.toLowerCase();
+        return (
+          lowerTag.includes(lowerSkill) ||
+          lowerSkill.includes(lowerTag) ||
+          // Specific mappings for abbreviations
+          (lowerTag === 'ble' && lowerSkill.includes('bluetooth')) ||
+          (lowerTag.includes('websocket') && lowerSkill.includes('websocket')) ||
+          (lowerTag.includes('django') && lowerSkill.includes('django')) ||
+          (lowerTag.includes('react') && lowerSkill.includes('react')) ||
+          (lowerTag.includes('spring') && lowerSkill.includes('spring')) ||
+          (lowerTag.includes('embedded') && lowerSkill.includes('embedded')) ||
+          (lowerTag.includes('time-series') && lowerSkill.includes('database')) ||
+          (lowerTag.includes('encryption') && lowerSkill.includes('encryption')) ||
+          (lowerTag.includes('offline') && lowerSkill.includes('offline'))
+        );
+      });
+    };
+
+    const domains: TechStackDomainMeta[] = [
+      {
+        id: 'all',
+        label: 'All Technologies',
+        count: this.projects.length,
+        skills: [],
+      },
+    ];
+
+    for (const track of rawSkills) {
+      const trackSkills = track.items.map((i) => i.name);
+      
+      // Count projects that have at least one tag matching this domain
+      const matchingProjects = this.projects.filter((p) =>
+        p.tags.some((t) => domainMatchesTag(trackSkills, t))
+      );
+
+      domains.push({
+        id: track.id,
+        label: track.category,
+        count: matchingProjects.length,
+        skills: trackSkills,
+      });
+    }
+
+    return { domains, popularTags };
+  }
+
+  async getEngagementTypes(): Promise<EngagementTypeMeta[]> {
+    const counts = new Map<string, number>();
+    for (const p of this.projects) {
+      const eng = p.company.engagementType;
+      counts.set(eng, (counts.get(eng) || 0) + 1);
+    }
+
+    const result: EngagementTypeMeta[] = [
+      { id: 'all', label: 'All Engagements', count: this.projects.length }
+    ];
+
+    for (const [id, count] of counts.entries()) {
+      result.push({
+        id,
+        label: id === 'Client Project (NDA)' ? 'Client (NDA)' : id,
+        count,
+      });
+    }
+
+    return result;
   }
 
   async getProjectBySlug(slug: string): Promise<ProjectDetail | null> {

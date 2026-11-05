@@ -21,6 +21,7 @@ import {
 } from '@/lib/projects.service';
 import { EngagementBadge } from '@/components/ui/EngagementBadge';
 import { TestimonialCard } from '@/components/ui/TestimonialCard';
+import { TechBadge } from '@/components/ui/TechBadge';
 import { normalizeVideoUrl } from '@/lib/media';
 
 interface PageProps {
@@ -292,19 +293,18 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Technologies Used */}
+      {/* Technologies Used with Central Registry Icons */}
       <section className="space-y-3">
         <h3 className="text-xs font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">
           Technologies & Tools Leveraged
         </h3>
         <div className="flex flex-wrap gap-2">
           {project.tags.map((tech) => (
-            <span
+            <TechBadge
               key={tech}
-              className="px-3 py-1 text-xs rounded-lg bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 font-medium"
-            >
-              {tech}
-            </span>
+              name={tech}
+              size="sm"
+            />
           ))}
         </div>
       </section>

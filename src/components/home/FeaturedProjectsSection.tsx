@@ -27,6 +27,7 @@ import { ProjectSummary, ProjectDetail } from '@/types/project';
 import { EngagementBadge } from '@/components/ui/EngagementBadge';
 import { VideoModal } from '@/components/ui/VideoModal';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/Icons';
+import { TechBadge } from '@/components/ui/TechBadge';
 import projectsJson from '@/data/projects.json';
 
 // Pre-index full case study data for quick-view access
@@ -341,15 +342,14 @@ function StageSlotCard({
                 {project.subtitle}
               </p>
 
-              {/* Tech Tag Chips */}
+              {/* Tech Tag Chips with Central Icons */}
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {project.tags.slice(0, 4).map((tech) => (
-                  <span
+                  <TechBadge
                     key={tech}
-                    className="px-2.5 py-0.5 text-xs rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-700/60 font-medium"
-                  >
-                    {tech}
-                  </span>
+                    name={tech}
+                    size="xs"
+                  />
                 ))}
                 {project.tags.length > 4 && (
                   <span className="px-2 py-0.5 text-xs rounded-lg bg-zinc-100 dark:bg-zinc-800/40 text-zinc-500 font-mono">

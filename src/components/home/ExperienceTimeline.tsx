@@ -21,6 +21,7 @@ import {
   Plane,
 } from 'lucide-react';
 import { WORK_EXPERIENCE, ExperienceItem, AchievementItem } from '@/data/experience';
+import { TechBadge } from '@/components/ui/TechBadge';
 
 interface InteractiveMilestoneCardProps {
   exp: ExperienceItem;
@@ -342,15 +343,14 @@ function InteractiveMilestoneCard({
             </div>
           )}
 
-          {/* Tech Stack Chips */}
+          {/* Tech Stack Chips with Central Registry Icons */}
           <div className="flex flex-wrap gap-1.5 pt-3 border-t border-zinc-100 dark:border-zinc-800/80">
             {exp.technologies.map((t) => (
-              <span
+              <TechBadge
                 key={t}
-                className="px-2.5 py-0.5 text-xs rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-700/50 font-medium"
-              >
-                {t}
-              </span>
+                name={t}
+                size="xs"
+              />
             ))}
           </div>
         </div>

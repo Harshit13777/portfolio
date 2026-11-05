@@ -80,8 +80,33 @@ export interface ProjectDetail extends ProjectSummary {
  */
 export type Project = ProjectDetail;
 
+export interface TechTagMeta {
+  name: string;
+  count: number;
+}
+
+export interface TechStackDomainMeta {
+  id: string; // 'all' | 'frontend-mobile' | 'backend-cloud' | 'iot-protocols' | 'databases-state'
+  label: string; // 'All Technologies' | 'Frontend & Mobile' | 'Backend & Cloud' | ...
+  count: number; // Number of projects using technologies in this domain
+  skills: string[]; // List of skills belonging to this domain
+}
+
+export interface TechStackFilterData {
+  domains: TechStackDomainMeta[];
+  popularTags: TechTagMeta[];
+}
+
+export interface EngagementTypeMeta {
+  id: string;
+  label: string;
+  count: number;
+}
+
 export interface ProjectFilter {
   category?: string;
+  techDomain?: string;
+  tag?: string;
   engagementType?: string;
   searchQuery?: string;
 }

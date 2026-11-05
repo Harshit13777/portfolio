@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { getAllProjects } from '@/lib/projects.service';
+import { getAllProjects, getTechStackFilters, getEngagementTypes } from '@/lib/projects.service';
 import { ProjectsDirectory } from '@/components/projects/ProjectsDirectory';
 
 export const metadata: Metadata = {
@@ -9,7 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await getAllProjects();
+  const [projects, techFilters, engagementTypes] = await Promise.all([
+    getAllProjects(),
+    getTechStackFilters(),
+    getEngagementTypes(),
+  ]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 space-y-8">
@@ -28,7 +32,11 @@ export default async function ProjectsPage() {
 
       {/* Filterable Directory */}
       <Suspense fallback={<div className="py-12 text-center text-sm text-zinc-500 font-mono">Loading projects archive...</div>}>
-        <ProjectsDirectory projects={projects} />
+        <ProjectsDirectory 
+          projects={projects} 
+          techFilters={techFilters}
+          engagementTypes={engagementTypes}
+        />
       </Suspense>
     </div>
   );

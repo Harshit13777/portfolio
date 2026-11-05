@@ -7,6 +7,7 @@ import { GithubIcon, LinkedinIcon } from '@/components/ui/Icons';
 import { ProjectSummary, ProjectDetail } from '@/types/project';
 import { EngagementBadge } from './EngagementBadge';
 import { VideoModal } from './VideoModal';
+import { TechBadge } from './TechBadge';
 
 interface Props {
   project: ProjectSummary | ProjectDetail;
@@ -90,18 +91,17 @@ export function ProjectCard({ project, featuredHighlight = false }: Props) {
             {project.subtitle}
           </p>
 
-          {/* Tech Stack Tags */}
+          {/* Tech Stack Tags with Central Registry Icons */}
           <div className="flex flex-wrap gap-1.5 mb-6">
             {project.tags.slice(0, 4).map((tech) => (
-              <span
+              <TechBadge
                 key={tech}
-                className="px-2.5 py-0.5 text-xs rounded-md bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-700/50"
-              >
-                {tech}
-              </span>
+                name={tech}
+                size="xs"
+              />
             ))}
             {project.tags.length > 4 && (
-              <span className="px-2 py-0.5 text-xs rounded-md bg-zinc-100 dark:bg-zinc-800/40 text-zinc-500">
+              <span className="px-2 py-0.5 text-[11px] rounded-lg bg-zinc-100 dark:bg-zinc-800/40 text-zinc-500 font-mono">
                 +{project.tags.length - 4}
               </span>
             )}

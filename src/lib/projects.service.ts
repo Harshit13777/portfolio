@@ -2,7 +2,9 @@ import {
   ProjectDetail, 
   ProjectSummary, 
   ProjectFilter, 
-  Testimonial 
+  Testimonial,
+  TechStackFilterData,
+  EngagementTypeMeta
 } from '@/types/project';
 import { getProjectRepository } from '@/lib/projects.repository';
 import projectsJson from '@/data/projects.json';
@@ -37,6 +39,16 @@ export async function getAllProjectSlugs(): Promise<string[]> {
 export async function getAdjacentProjects(slug: string): Promise<{ prev: ProjectSummary | null; next: ProjectSummary | null }> {
   const repo = getProjectRepository();
   return repo.getAdjacentProjects(slug);
+}
+
+export async function getTechStackFilters(): Promise<TechStackFilterData> {
+  const repo = getProjectRepository();
+  return repo.getTechStackFilters();
+}
+
+export async function getEngagementTypes(): Promise<EngagementTypeMeta[]> {
+  const repo = getProjectRepository();
+  return repo.getEngagementTypes();
 }
 
 export async function getFeaturedTestimonials(): Promise<{ testimonial: Testimonial; projectName: string }[]> {

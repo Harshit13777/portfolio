@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { FREELANCE_SERVICES, ENGAGEMENT_MODELS, WORKING_PROCESS } from '@/data/services';
 import { SOCIAL_LINKS } from '@/data/experience';
+import { TechBadge } from '@/components/ui/TechBadge';
 
 export const metadata: Metadata = {
   title: 'Freelance Engineering Services & Sprints | Harshit Soni',
@@ -101,12 +102,13 @@ export default function ServicesPage() {
               <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 space-y-4">
                 <div className="flex flex-wrap gap-1.5">
                   {service.techStack.map((tech) => (
-                    <span
+                    <TechBadge
                       key={tech}
-                      className="px-2 py-0.5 text-xs rounded bg-zinc-100 dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400 border border-zinc-200/80 dark:border-zinc-700/40"
-                    >
-                      {tech}
-                    </span>
+                      name={tech}
+                      size="xs"
+                      href={`/projects?tag=${encodeURIComponent(tech)}`}
+                      interactive
+                    />
                   ))}
                 </div>
 

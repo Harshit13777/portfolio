@@ -2,11 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { getFeaturedProjects } from '@/lib/projects.service';
-import { FREELANCE_SERVICES } from '@/data/services';
 import { WORK_EXPERIENCE, SOCIAL_LINKS } from '@/data/experience';
 import { HeroSection } from '@/components/home/HeroSection';
 import { SkillsTicker } from '@/components/home/SkillsTicker';
 import { FeaturedProjectsSection } from '@/components/home/FeaturedProjectsSection';
+import { FreelanceAdvisorySection } from '@/components/home/FreelanceAdvisorySection';
 import { ExperienceTimeline } from '@/components/home/ExperienceTimeline';
 import { FeedbackMarquee } from '@/components/home/FeedbackMarquee';
 
@@ -30,68 +30,9 @@ export default async function HomePage() {
         <FeaturedProjectsSection projects={featuredProjects} />
       </section>
 
-      {/* 4. Freelance Services & Value Prop (Distinct Warm Stone / Sand Tone) */}
-      <section className="w-full bg-stone-50/90 dark:bg-stone-950/60 border-b border-stone-200/80 dark:border-stone-850/80 py-20 sm:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-white/90 dark:bg-stone-900/50 border border-stone-200/90 dark:border-stone-800/80 p-8 sm:p-12 shadow-sm">
-            <div className="max-w-2xl mb-10">
-              <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
-                Freelance & Advisory
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 mt-2">
-                How I Help Startups & Engineering Teams
-              </h2>
-              <p className="text-sm text-stone-600 dark:text-stone-400 mt-2 leading-relaxed">
-                From building high-stakes Bluetooth mobile apps to standing up resilient backend microservices, here are the core capabilities I offer on contract.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {FREELANCE_SERVICES.map((service) => (
-                <div
-                  key={service.id}
-                  className="p-6 rounded-2xl bg-stone-50/70 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 hover:border-accent/40 dark:hover:border-stone-700 transition-all flex flex-col justify-between group shadow-sm"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-accent-muted text-accent border border-accent-muted">
-                        {service.badge}
-                      </span>
-                      <span className="text-xs text-stone-500 font-mono">{service.timeline}</span>
-                    </div>
-                    <h3 className="text-base font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-accent transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed mb-4">
-                      {service.summary}
-                    </p>
-                  </div>
-                  <div className="pt-4 border-t border-stone-200 dark:border-stone-800/80">
-                    <Link
-                      href="/services"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:underline"
-                    >
-                      View Deliverables
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 pt-8 border-t border-stone-200 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-xs text-stone-600 dark:text-stone-400">
-                Need a custom scope or technical evaluation? Let’s schedule a 30-minute discovery call.
-              </p>
-              <Link
-                href="/services"
-                className="px-5 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 text-xs font-semibold transition-colors"
-              >
-                Explore Services & Process →
-              </Link>
-            </div>
-          </div>
-        </div>
+      {/* 4. Freelance Services & Scope Studio (Interactive Blueprint & Estimator) */}
+      <section className="w-full bg-stone-50/90 dark:bg-stone-950/60 border-b border-stone-200/80 dark:border-stone-850/80 py-16 sm:py-24">
+        <FreelanceAdvisorySection />
       </section>
 
       {/* 5. Career Experience Timeline (Distinct Midnight Navy / Ice Blue Tone) */}
