@@ -4,6 +4,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, Sparkles, Bot, Move } from 'lucide-react';
 import { SectionType } from './ThreeAvatarCanvas';
+import { soundFx } from '@/lib/soundFx';
 
 interface SectionInfo {
   index: string;
@@ -111,7 +112,10 @@ export function AvatarSpeechHUD({ activeSection, hudSide = 'left', onNavigate }:
           {/* Teleport Action */}
           <button
             type="button"
-            onClick={() => onNavigate(current.nextId)}
+            onClick={() => {
+              soundFx.playTeleportBlip();
+              onNavigate(current.nextId);
+            }}
             className="w-full pt-1.5 mt-1 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[10px] font-mono font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 group transition-colors"
           >
             <span>Jump to next section</span>

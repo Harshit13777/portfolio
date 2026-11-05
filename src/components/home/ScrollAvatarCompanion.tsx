@@ -3,9 +3,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, useMotionValue } from 'motion/react';
-import { Bot, Minimize2, Maximize2, Move } from 'lucide-react';
+import { Bot, Minimize2, Maximize2, Move, Volume2, VolumeX } from 'lucide-react';
 import { SectionType } from './ThreeAvatarCanvas';
 import { AvatarSpeechHUD, SECTION_METADATA } from './AvatarSpeechHUD';
+import { soundFx } from '@/lib/soundFx';
 
 // Dynamic lazy-load of the Three.js Canvas with zero SSR blocking
 const DynamicThreeAvatar = dynamic(
@@ -49,6 +50,7 @@ export function ScrollAvatarCompanion() {
   const [activeSection, setActiveSection] = useState<SectionType>('hero');
   const [isMinimized, setIsMinimized] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(soundFx.isMuted);
 
   // Viewport dimensions
   const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
@@ -108,6 +110,9 @@ export function ScrollAvatarCompanion() {
               // Trigger smooth flight to the new section's home position!
               const newCoords = calculateCoordinates(item, window.innerWidth, window.innerHeight);
               setTargetPos(newCoords);
+              // Play flight & HUD audio feedback
+              soundFx.playFlightWoosh();
+              soundFx.playChirpBeep();
             }
             break;
           }
@@ -138,9 +143,13 @@ export function ScrollAvatarCompanion() {
       drag
       dragMomentum={true}
       dragElastic={0.12}
-      onDragStart={() => setIsDragging(true)}
+      onDragStart={() => {
+        setIsDragging(true);
+        soundFx.playGrabSound();
+      }}
       onDragEnd={(_, info) => {
         setIsDragging(false);
+        soundFx.playDropSound();
         // Updates current location from user's manual hand movement
         setTargetPos((prev) => ({
           x: Math.max(10, Math.min(windowSize.width - 320, prev.x + info.offset.x)),
@@ -220,22 +229,47 @@ export function ScrollAvatarCompanion() {
                 <span>Drag me</span>
               </div>
 
-              {/* Minimize Toggle Button */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsMinimized(true);
-                }}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="absolute top-1 right-1 z-10 p-1.5 rounded-full bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 shadow-sm transition-colors cursor-pointer"
-                title="Minimize 3D Co-Pilot"
-              >
-                <Minimize2 className="w-3 h-3" />
-              </button>
+              {/* Controls Toolbar: Mute & Minimize */}
+              <div className="absolute top-1 right-1 z-10 flex items-center gap-1">
+                {/* Sound Toggle Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const newMuted = soundFx.toggleMute();
+                    setIsMuted(newMuted);
+                  }}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="p-1.5 rounded-full bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 shadow-sm transition-colors cursor-pointer"
+                  title={isMuted ? 'Unmute Sound Effects' : 'Mute Sound Effects'}
+                >
+                  {isMuted ? (
+                    <VolumeX className="w-3 h-3 text-zinc-400" />
+                  ) : (
+                    <Volume2 className="w-3 h-3 text-emerald-500" />
+                  )}
+                </button>
 
-              {/* Three.js Canvas */}
-              <div className="relative">
+                {/* Minimize Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsMinimized(true);
+                  }}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="p-1.5 rounded-full bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 shadow-sm transition-colors cursor-pointer"
+                  title="Minimize 3D Co-Pilot"
+                >
+                  <Minimize2 className="w-3 h-3" />
+                </button>
+              </div>
+
+              {/* Three.js Canvas with Interactive Poke Boop */}
+              <div 
+                className="relative"
+                onClick={() => soundFx.playBoopChirp()}
+              >
                 <DynamicThreeAvatar activeSection={activeSection} />
               </div>
             </div>
