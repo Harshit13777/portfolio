@@ -1,18 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { getFeaturedProjects, getFeaturedTestimonials } from '@/lib/projects.service';
+import { getFeaturedProjects } from '@/lib/projects.service';
 import { FREELANCE_SERVICES } from '@/data/services';
 import { WORK_EXPERIENCE, SOCIAL_LINKS } from '@/data/experience';
 import { HeroSection } from '@/components/home/HeroSection';
 import { SkillsTicker } from '@/components/home/SkillsTicker';
 import { FeaturedProjectsSection } from '@/components/home/FeaturedProjectsSection';
-import { TestimonialsRotator } from '@/components/home/TestimonialsRotator';
 import { ExperienceTimeline } from '@/components/home/ExperienceTimeline';
+import { FeedbackMarquee } from '@/components/home/FeedbackMarquee';
 
 export default async function HomePage() {
   const featuredProjects = await getFeaturedProjects();
-  const testimonials = await getFeaturedTestimonials();
 
   return (
     <div className="w-full flex flex-col">
@@ -95,19 +94,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5. Auto-Rotating Client & Leader Recommendations (Warm testimonial showcase) */}
-      {testimonials.length > 0 && (
-        <section className="w-full bg-zinc-100/50 dark:bg-zinc-900/30 border-b border-zinc-200/80 dark:border-zinc-800/80 py-16 sm:py-24">
-          <TestimonialsRotator testimonials={testimonials} />
-        </section>
-      )}
-
-      {/* 6. Career Experience Timeline (Dynamic 3D flip canvas) */}
+      {/* 5. Career Experience Timeline (Dynamic 3D flip canvas) */}
       <section className="w-full bg-white dark:bg-black border-b border-zinc-200/60 dark:border-zinc-800/60 py-20 sm:py-28">
         <ExperienceTimeline />
       </section>
 
-      {/* 7. Call To Action Banner */}
+      {/* 6. Feedback & Client Endorsements Bar (Infinite Marquee just above Contact) */}
+      <section className="w-full bg-zinc-100/60 dark:bg-zinc-950/70 border-b border-zinc-200/80 dark:border-zinc-800/80 py-16 sm:py-24">
+        <FeedbackMarquee />
+      </section>
+
+      {/* 7. Call To Action & Contact Banner */}
       <section className="w-full bg-gradient-to-b from-zinc-50/50 to-background dark:from-zinc-950/40 dark:to-background py-20 sm:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl bg-gradient-to-r from-zinc-100 via-white to-zinc-50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900 border border-zinc-200/90 dark:border-zinc-800 p-8 sm:p-12 overflow-hidden text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 shadow-sm">
