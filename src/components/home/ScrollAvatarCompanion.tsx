@@ -3,10 +3,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, useMotionValue } from 'motion/react';
-import { Bot, Minimize2, Maximize2, Move, Volume2, VolumeX } from 'lucide-react';
+import { Bot, Minimize2, Maximize2, Move, Volume2, VolumeX, MessageSquare } from 'lucide-react';
 import { SectionType } from './ThreeAvatarCanvas';
 import { AvatarSpeechHUD, SECTION_METADATA } from './AvatarSpeechHUD';
 import { soundFx } from '@/lib/soundFx';
+import { PortfolioChatbotModal } from '@/components/chat/PortfolioChatbotModal';
 
 // Dynamic lazy-load of the Three.js Canvas with zero SSR blocking
 const DynamicThreeAvatar = dynamic(
@@ -51,6 +52,7 @@ export function ScrollAvatarCompanion() {
   const [isMinimized, setIsMinimized] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(soundFx.isMuted);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
   // Viewport dimensions
   const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
@@ -229,8 +231,23 @@ export function ScrollAvatarCompanion() {
                 <span>Drag me</span>
               </div>
 
-              {/* Controls Toolbar: Mute & Minimize */}
+              {/* Controls Toolbar: Chat, Mute & Minimize */}
               <div className="absolute top-1 right-1 z-10 flex items-center gap-1">
+                {/* AI Chatbot Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    soundFx.playChirpBeep();
+                    setIsChatOpen(true);
+                  }}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="p-1.5 rounded-full bg-emerald-500/90 hover:bg-emerald-600 text-white shadow-sm transition-all hover:scale-105 cursor-pointer"
+                  title="Chat with Harshit's AI Assistant"
+                >
+                  <MessageSquare className="w-3 h-3" />
+                </button>
+
                 {/* Sound Toggle Button */}
                 <button
                   type="button"
@@ -290,6 +307,12 @@ export function ScrollAvatarCompanion() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Interactive AI Chatbot Modal (Connected to Google Sheets & Gmail) */}
+      <PortfolioChatbotModal
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+      />
     </motion.div>
   );
 }

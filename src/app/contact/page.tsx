@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/Icons';
 import { SOCIAL_LINKS } from '@/data/experience';
+import { sendLeadToGoogle } from '@/lib/leadDispatcher';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -23,8 +24,23 @@ export default function ContactPage() {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    await sendLeadToGoogle({
+      source: 'contact_form',
+      name: formData.name,
+      email: formData.email,
+      projectType: formData.projectType,
+      budget: formData.budget,
+      query: `${formData.projectType} (${formData.budget})`,
+      summary: formData.message,
+    });
+
+    setIsSubmitting(false);
     setSubmitted(true);
   };
 

@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // Enabled full Next.js dynamic & server capabilities for Vercel deployment
   images: {
     unoptimized: true,
   },
