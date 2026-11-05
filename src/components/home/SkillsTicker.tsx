@@ -244,13 +244,21 @@ export function SkillsTicker() {
           return (
             <div
               key={categoryTrack.id || rowIdx}
-              className={`relative flex items-center gap-3 transition-opacity duration-500 ${
+              className={`relative flex flex-col lg:flex-row lg:items-center gap-1.5 lg:gap-3 transition-opacity duration-500 ${
                 isCategorySelected ? 'opacity-100' : 'opacity-25 blur-xs'
               }`}
             >
-              {/* Category Sticky Tag (Desktop) */}
+              {/* Category Sticky Tag (Desktop side tag + Mobile/Tablet inline tag) */}
               <div className="hidden lg:flex shrink-0 items-center justify-end w-48 pr-4 border-r-2 border-zinc-300 dark:border-zinc-700 text-xs font-bold text-zinc-900 dark:text-zinc-100 font-mono">
                 {categoryTrack.category}
+              </div>
+
+              {/* Mobile/Tablet Category Indicator */}
+              <div className="flex lg:hidden items-center gap-2 px-4 sm:px-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-accent">
+                  {categoryTrack.category}
+                </span>
               </div>
 
               {/* Infinite Running Marquee Track with Motion Hover */}
