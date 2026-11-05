@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/Icons';
 import { WORK_EXPERIENCE, TECHNICAL_SKILLS, SOCIAL_LINKS } from '@/data/experience';
+import { Avatar } from '@/components/ui/Avatar';
 
 export const metadata: Metadata = {
   title: 'Resume & Verified Experience | Harshit Soni',
@@ -24,28 +25,37 @@ export default function ResumePage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 space-y-12">
       {/* Header & Quick Action */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-zinc-200 dark:border-zinc-800 pb-8">
-        <div className="space-y-2">
-          <span className="text-xs font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">
-            Curriculum Vitae
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100">
-            {SOCIAL_LINKS.name}
-          </h1>
-          <p className="text-base text-emerald-600 dark:text-emerald-400 font-semibold">
-            {SOCIAL_LINKS.title}
-          </p>
-          <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400 pt-1">
-            <span className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-zinc-400" />
-              {SOCIAL_LINKS.location}
+        <div className="flex items-start gap-5">
+          <Avatar
+            src={SOCIAL_LINKS.avatarUrl}
+            fallback={SOCIAL_LINKS.avatarFallback}
+            size="lg"
+            showStatus={true}
+            className="shrink-0 mt-1"
+          />
+          <div className="space-y-2">
+            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
+              Curriculum Vitae
             </span>
-            <a
-              href={`mailto:${SOCIAL_LINKS.email}`}
-              className="flex items-center gap-1.5 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-            >
-              <Mail className="w-3.5 h-3.5 text-zinc-400" />
-              {SOCIAL_LINKS.email}
-            </a>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100">
+              {SOCIAL_LINKS.name}
+            </h1>
+            <p className="text-base text-accent font-semibold">
+              {SOCIAL_LINKS.title}
+            </p>
+            <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400 pt-1">
+              <span className="flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-zinc-400" />
+                {SOCIAL_LINKS.location}
+              </span>
+              <a
+                href={`mailto:${SOCIAL_LINKS.email}`}
+                className="flex items-center gap-1.5 hover:text-accent transition-colors"
+              >
+                <Mail className="w-3.5 h-3.5 text-zinc-400" />
+                {SOCIAL_LINKS.email}
+              </a>
+            </div>
           </div>
         </div>
 

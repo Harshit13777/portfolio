@@ -121,5 +121,7 @@ export const SOCIAL_LINKS = {
   github: 'https://github.com/Harshit13777',
   linkedin: 'https://www.linkedin.com/in/harshit13777',
   location: 'Gurugram, India (Available for Remote & Relocation)',
-  whatsapp: 'https://wa.me/918920334033'
+  whatsapp: 'https://wa.me/918920334033',
+  avatarUrl: '/images/profile.jpeg',
+  avatarFallback: 'HS'
 };

@@ -21,6 +21,7 @@ import {
 } from '@/lib/projects.service';
 import { EngagementBadge } from '@/components/ui/EngagementBadge';
 import { TestimonialCard } from '@/components/ui/TestimonialCard';
+import { normalizeVideoUrl } from '@/lib/media';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -60,11 +61,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
   const { prev, next } = await getAdjacentProjects(slug);
 
-  const isVideoEmbed = project.links.videoUrl && (
-    project.links.videoUrl.includes('youtube.com') ||
-    project.links.videoUrl.includes('youtu.be') ||
-    project.links.videoUrl.includes('loom.com')
-  );
+  const videoMeta = project.links.videoUrl ? normalizeVideoUrl(project.links.videoUrl) : null;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16 space-y-12">
@@ -170,16 +167,16 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       )}
 
       {/* Video Walkthrough Embed (If Available) */}
-      {project.links.videoUrl && (
+      {videoMeta && (
         <section className="space-y-4">
           <div className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-zinc-200">
-            <Play className="w-4 h-4 text-emerald-600 dark:text-emerald-400 fill-current" />
+            <Play className="w-4 h-4 text-accent fill-current" />
             <span>Interactive Video Demo & Walkthrough</span>
           </div>
           <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shadow-xl">
-            {isVideoEmbed ? (
+            {videoMeta.type === 'youtube' || videoMeta.type === 'loom' ? (
               <iframe
-                src={project.links.videoUrl}
+                src={videoMeta.embedUrl}
                 title={project.title}
                 className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -187,13 +184,39 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               />
             ) : (
               <video
-                src={project.links.videoUrl}
+                src={videoMeta.embedUrl}
                 controls
                 className="w-full h-full object-cover"
               >
                 Your browser does not support the video tag.
               </video>
             )}
+          </div>
+        </section>
+      )}
+
+      {/* Screenshot & Architecture Gallery (If Available) */}
+      {project.gallery && project.gallery.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-zinc-200">
+            <Layers className="w-4 h-4 text-accent" />
+            <span>Product Screenshots & System Diagrams</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {project.gallery.map((imgUrl, idx) => (
+              <div 
+                key={idx} 
+                className="group relative aspect-video rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 shadow-sm"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={imgUrl}
+                  alt={`${project.title} screenshot ${idx + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            ))}
           </div>
         </section>
       )}

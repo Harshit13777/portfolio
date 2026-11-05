@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
+import { normalizeVideoUrl } from '@/lib/media';
 
 interface Props {
   isOpen: boolean;
@@ -31,9 +32,7 @@ export function VideoModal({ isOpen, onClose, videoUrl, title }: Props) {
 
   if (!isOpen || !videoUrl) return null;
 
-  const isEmbed = videoUrl.includes('youtube.com') || 
-                  videoUrl.includes('youtu.be') || 
-                  videoUrl.includes('loom.com');
+  const { embedUrl, type } = normalizeVideoUrl(videoUrl);
 
   return (
     <div 
@@ -47,7 +46,7 @@ export function VideoModal({ isOpen, onClose, videoUrl, title }: Props) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/50">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-200 truncate">
               {title ? `Demo: ${title}` : 'Project Video Walkthrough'}
             </h3>
@@ -63,9 +62,9 @@ export function VideoModal({ isOpen, onClose, videoUrl, title }: Props) {
 
         {/* Video Player */}
         <div className="relative aspect-video w-full bg-black">
-          {isEmbed ? (
+          {type === 'youtube' || type === 'loom' ? (
             <iframe
-              src={videoUrl}
+              src={embedUrl}
               title={title || 'Project Video'}
               className="w-full h-full border-0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -73,7 +72,7 @@ export function VideoModal({ isOpen, onClose, videoUrl, title }: Props) {
             />
           ) : (
             <video
-              src={videoUrl}
+              src={embedUrl}
               controls
               autoPlay
               className="w-full h-full"

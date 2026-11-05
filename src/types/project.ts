@@ -15,13 +15,14 @@ export interface CompanyEngagement {
 }
 
 export interface ProjectLinks {
-  liveUrl?: string;
-  videoUrl?: string;
-  githubUrl?: string;
-  linkedInUrl?: string;
-  appStoreUrl?: string;
-  playStoreUrl?: string;
-  docsUrl?: string;
+  liveUrl?: string;          // Production live site / app
+  videoUrl?: string;         // Full walkthrough: YouTube / Loom / MP4
+  clipUrl?: string;          // Short 5-15s teaser MP4 / WebM / GIF
+  githubUrl?: string;        // Source repository
+  linkedInUrl?: string;      // LinkedIn showcase post
+  appStoreUrl?: string;      // Apple App Store link
+  playStoreUrl?: string;     // Google Play Store link
+  docsUrl?: string;          // Documentation link
 }
 
 export interface Testimonial {
@@ -45,7 +46,6 @@ export interface CaseStudyDetail {
 /**
  * Lightweight Project Summary Entity
  * Used for Home Page featured highlights and /projects directory catalog cards.
- * Avoids over-fetching full case study text in database queries.
  */
 export interface ProjectSummary {
   id: string;
@@ -69,6 +69,8 @@ export interface ProjectSummary {
  */
 export interface ProjectDetail extends ProjectSummary {
   bannerImage?: string;
+  clipUrl?: string;          // Short teaser clip
+  gallery?: string[];        // Array of extra screenshot / architecture diagram URLs
   testimonial?: Testimonial;
   caseStudy: CaseStudyDetail;
 }

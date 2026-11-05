@@ -1,0 +1,191 @@
+[
+  {
+    "id": "frontend-mobile",
+    "category": "Frontend & Mobile",
+    "direction": "left",
+    "speed": "normal",
+    "items": [
+      {
+        "name": "React Native",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/react/react-original.svg"
+      },
+      {
+        "name": "TypeScript",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/typescript/typescript-original.svg"
+      },
+      {
+        "name": "Next.js 16",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/nextjs/nextjs-original.svg"
+      },
+      {
+        "name": "Tailwind CSS",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/tailwindcss/tailwindcss-original.svg"
+      },
+      {
+        "name": "Redux Toolkit",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/redux/redux-original.svg"
+      },
+      {
+        "name": "JavaScript (ES6+)",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/javascript/javascript-original.svg"
+      },
+      {
+        "name": "HTML5 & CSS3",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/html5/html5-original.svg"
+      },
+      {
+        "name": "Zustand State",
+        "fallbackIcon": "layers",
+        "iconColor": "#ec4899"
+      },
+      {
+        "name": "Expo Mobile SDK",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/react/react-original.svg"
+      },
+      {
+        "name": "Responsive UI/UX",
+        "fallbackIcon": "code",
+        "iconColor": "#06b6d4"
+      }
+    ]
+  },
+  {
+    "id": "backend-cloud",
+    "category": "Backend & Cloud",
+    "direction": "right",
+    "speed": "normal",
+    "items": [
+      {
+        "name": "Python",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/python/python-original.svg"
+      },
+      {
+        "name": "Django REST",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/django/django-plain.svg"
+      },
+      {
+        "name": "Java",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/java/java-original.svg"
+      },
+      {
+        "name": "Spring Boot",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/spring/spring-original.svg"
+      },
+      {
+        "name": "Node.js",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/nodejs/nodejs-original.svg"
+      },
+      {
+        "name": "Express.js",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/express/express-original.svg"
+      },
+      {
+        "name": "Docker",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/docker/docker-original.svg"
+      },
+      {
+        "name": "AWS Cloud",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+      },
+      {
+        "name": "Celery Asynchronous Queues",
+        "fallbackIcon": "zap",
+        "iconColor": "#10b981"
+      },
+      {
+        "name": "RESTful Microservices",
+        "fallbackIcon": "cpu",
+        "iconColor": "#6366f1"
+      }
+    ]
+  },
+  {
+    "id": "database-caching",
+    "category": "Databases & State",
+    "direction": "left",
+    "speed": "normal",
+    "items": [
+      {
+        "name": "PostgreSQL",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/postgresql/postgresql-original.svg"
+      },
+      {
+        "name": "Redis Pub/Sub",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/redis/redis-original.svg"
+      },
+      {
+        "name": "SQLite & SQLCipher",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/sqlite/sqlite-original.svg"
+      },
+      {
+        "name": "MySQL",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mysql/mysql-original.svg"
+      },
+      {
+        "name": "MongoDB",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mongodb/mongodb-original.svg"
+      },
+      {
+        "name": "Offline-First Sync",
+        "fallbackIcon": "layers",
+        "iconColor": "#0d9488"
+      },
+      {
+        "name": "Database Indexing & Tuning",
+        "fallbackIcon": "cpu",
+        "iconColor": "#3b82f6"
+      },
+      {
+        "name": "AES-256 Storage Encryption",
+        "fallbackIcon": "zap",
+        "iconColor": "#f59e0b"
+      }
+    ]
+  },
+  {
+    "id": "iot-hardware",
+    "category": "IoT & Protocols",
+    "direction": "right",
+    "speed": "normal",
+    "items": [
+      {
+        "name": "Bluetooth Low Energy (BLE)",
+        "fallbackIcon": "wifi",
+        "iconColor": "#0ea5e9"
+      },
+      {
+        "name": "OCPP 1.6-J / 2.0",
+        "fallbackIcon": "zap",
+        "iconColor": "#10b981"
+      },
+      {
+        "name": "WebSockets & Telemetry",
+        "fallbackIcon": "radio",
+        "iconColor": "#f59e0b"
+      },
+      {
+        "name": "Serial UART & Hardware QA",
+        "fallbackIcon": "cpu",
+        "iconColor": "#6366f1"
+      },
+      {
+        "name": "Linux Embedded",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/linux/linux-original.svg"
+      },
+      {
+        "name": "Git & CI/CD",
+        "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/git/git-original.svg"
+      },
+      {
+        "name": "MQTT Protocol",
+        "fallbackIcon": "radio",
+        "iconColor": "#14b8a6"
+      },
+      {
+        "name": "Microcontroller Flashing & JTAG",
+        "fallbackIcon": "cpu",
+        "iconColor": "#a855f7"
+      }
+    ]
+  }
+]

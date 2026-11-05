@@ -29,6 +29,13 @@ export const metadata: Metadata = {
     'Django Developer'
   ],
   authors: [{ name: 'Harshit Soni' }],
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/favicon.svg',
+  },
   openGraph: {
     title: 'Harshit Soni | Full-Stack & IoT / Mobile Software Engineer',
     description: 'Explore live project highlights, video walk-throughs, and deep-dive technical case studies across React Native, BLE, and distributed cloud backends.',
@@ -45,6 +52,14 @@ const themeScript = `
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
+      }
+
+      var storedAccent = localStorage.getItem('accent') || 'emerald';
+      if (storedAccent.startsWith('#')) {
+        document.documentElement.setAttribute('data-accent', 'custom');
+        document.documentElement.style.setProperty('--accent', storedAccent);
+      } else {
+        document.documentElement.setAttribute('data-accent', storedAccent);
       }
     } catch (e) {}
   })();

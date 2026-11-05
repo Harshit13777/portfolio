@@ -9,6 +9,10 @@
     "order": 1,
     "thumbnail": "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80",
     "bannerImage": "https://images.unsplash.com/photo-1558441719-7036a1617c5b?auto=format&fit=crop&w=1600&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1558441719-7036a1617c5b?auto=format&fit=crop&w=1200&q=80"
+    ],
     "tags": ["React Native", "BLE", "TypeScript", "WebSocket", "Django", "Redux Toolkit"],
     "company": {
       "name": "EVI Technologies",
@@ -247,5 +251,141 @@
       ]
     },
     "publishedAt": "2023-04-12T00:00:00Z"
+  },
+  {
+    "id": "proj-6",
+    "slug": "travel-booking-automation",
+    "title": "Travel Management & Booking Automation Platform",
+    "subtitle": "Full-stack customer journey and booking engine with automated reminder pipelines, calendar synchronization, and transactional workflows.",
+    "category": "fullstack",
+    "featured": false,
+    "order": 6,
+    "thumbnail": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=80",
+    "tags": ["React Native", "Node.js", "PostgreSQL", "Push Notifications", "Twilio", "Next.js"],
+    "company": {
+      "name": "Global Travel Client",
+      "role": "Full-Stack & Mobile Consultant",
+      "engagementType": "Freelance Contract",
+      "duration": "3 Months",
+      "location": "Remote"
+    },
+    "links": {
+      "linkedInUrl": "https://www.linkedin.com/in/harshit13777"
+    },
+    "caseStudy": {
+      "overview": "A boutique travel advisory service experienced high client drop-off and manual coordination overhead during multi-leg itinerary confirmations. The objective was to engineer a frictionless mobile companion app and automated backend notification engine that sends timely reminders, gate changes, and payment invoices without agent intervention.",
+      "challenge": "Orchestrating multi-timezone scheduled notifications with high delivery deliverability while providing offline itinerary access to travelers abroad with unreliable data roaming.",
+      "solution": "Built an offline-first mobile app with local encrypted cache alongside a Node.js event-driven scheduler. Integrated Twilio and WhatsApp Business API webhooks with Redis task queues for fault-tolerant automated messaging.",
+      "architecturePoints": [
+        "React Native traveler mobile app with local SQLite itinerary storage",
+        "Node.js & Express microservice orchestrating scheduled BullMQ message queues",
+        "Twilio WhatsApp and SMS failover gateway integration",
+        "Automated calendar sync exporting iCal and Google Calendar event feeds"
+      ],
+      "engineeringHighlights": [
+        "Increased customer booking confirmation rate by 30% through automated follow-up triggers",
+        "Eliminated ~15 hours per week of manual travel agent itinerary emailing and reminder calls",
+        "Maintained 99.8% on-time notification delivery across 12 distinct international timezones"
+      ],
+      "results": [
+        { "label": "Booking Conversion", "value": "+30% Lift" },
+        { "label": "Manual Work Cut", "value": "15 hrs/wk saved" },
+        { "label": "Notification Rate", "value": "99.8% On-Time" },
+        { "label": "Active Travelers", "value": "8,500+" }
+      ]
+    },
+    "publishedAt": "2023-08-15T00:00:00Z"
+  },
+  {
+    "id": "proj-7",
+    "slug": "payment-dashboard-integration",
+    "title": "Enterprise Payment Dashboard & Webhook Automation",
+    "subtitle": "Interactive corporate billing dashboard and automated multi-gateway reconciliation engine handling high-volume subscription webhooks.",
+    "category": "fullstack",
+    "featured": false,
+    "order": 7,
+    "thumbnail": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80",
+    "tags": ["React", "Django", "PostgreSQL", "Stripe", "Razorpay", "Redis", "Tailwind CSS"],
+    "company": {
+      "name": "Veblika Software",
+      "role": "Full-Stack Software Engineer",
+      "engagementType": "Full-time",
+      "duration": "2022 - 2023",
+      "location": "Jaipur, India"
+    },
+    "links": {
+      "linkedInUrl": "https://www.linkedin.com/in/harshit13777"
+    },
+    "caseStudy": {
+      "overview": "Corporate clients required an integrated financial portal to visualize real-time subscription churn, automate recurring invoice generation, and reconcile gateway settlement discrepancies across Stripe, Razorpay, and direct bank webhooks.",
+      "challenge": "Handling high-volume concurrent webhook bursts during billing cycle renewals without dropped events or double-charge race conditions across asynchronous payment endpoints.",
+      "solution": "Designed idempotent webhook ingestion pipelines with Redis distributed mutex locks. Coupled this with a responsive React dashboard powered by Tailwind CSS and optimized SVG charts for granular revenue analytics.",
+      "architecturePoints": [
+        "React frontend featuring filterable data tables, date range pickers, and live charts",
+        "Django REST Framework backend with signature-verified webhook endpoints",
+        "Idempotent database transactions protected by Redis locks to guarantee exactly-once payment processing",
+        "Automated PDF invoice generation and async email delivery pipeline via Celery"
+      ],
+      "engineeringHighlights": [
+        "Reduced transaction reconciliation discrepancies to zero with automated webhook ledger audit trails",
+        "Accelerated finance team reporting from 4 days to instant real-time data queries",
+        "Optimized database queries with compound indexing, maintaining sub-120ms dashboard API responses"
+      ],
+      "results": [
+        { "label": "Reconciliation Errors", "value": "0 Discrepancies" },
+        { "label": "Dashboard Latency", "value": "< 120ms" },
+        { "label": "Monthly Volume", "value": "$1.2M+ Processed" },
+        { "label": "Invoices Generated", "value": "120k+" }
+      ]
+    },
+    "publishedAt": "2023-01-10T00:00:00Z"
+  },
+  {
+    "id": "proj-8",
+    "slug": "ocpp-ev-backend",
+    "title": "OCPP-Compliant EV Charging Network Backend",
+    "subtitle": "Distributed charge point management system (CPMS) compliant with OCPP 1.6-J/2.0 protocols, real-time WebSocket metering, and cloud billing.",
+    "category": "fullstack",
+    "featured": true,
+    "order": 8,
+    "thumbnail": "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1558441719-7036a1617c5b?auto=format&fit=crop&w=1600&q=80",
+    "tags": ["Django", "Python", "WebSockets", "OCPP 1.6-J", "PostgreSQL", "Docker", "AWS"],
+    "company": {
+      "name": "EVI Technologies",
+      "role": "Lead Mobile & IoT Software Engineer",
+      "engagementType": "Full-time",
+      "duration": "2023 - Present",
+      "location": "New Delhi, India"
+    },
+    "links": {
+      "liveUrl": "https://evitechnologies.com",
+      "linkedInUrl": "https://www.linkedin.com/in/harshit13777"
+    },
+    "caseStudy": {
+      "overview": "Interoperability is the central requirement of modern EV charging infrastructure. Charging equipment from various hardware manufacturers must communicate with central management software over standardized OCPP (Open Charge Point Protocol). This project implemented an enterprise OCPP 1.6-J central backend handling live charger telemetry, remote start/stop commands, RFID authorization, and dynamic tariff billing.",
+      "challenge": "Maintaining persistent, bi-directional WebSocket connections with thousands of outdoor charging kiosks across unstable 4G networks, and processing live 10-second meter value frames without overwhelming transactional databases.",
+      "solution": "Built a scalable WebSocket gateway in Python with asynchronous event loops, buffering high-frequency meter telemetry in Redis before batch-flushing to PostgreSQL. Implemented strict OCPP schema validation and remote diagnostic command dispatchers.",
+      "architecturePoints": [
+        "Asynchronous WebSocket server implementing complete OCPP 1.6-J protocol specifications",
+        "Redis stream buffer decoupling real-time charger heartbeats from relational persistence",
+        "Role-based charging session billing engine with automatic tariff calculation and wallet deductions",
+        "Automated firmware over-the-air (FOTA) distribution engine with rollout canary rings"
+      ],
+      "engineeringHighlights": [
+        "Maintained 99.95% central system uptime across 2,000+ active charging station connectors",
+        "Reduced socket reconnection overhead through lightweight heartbeat keep-alives and session recovery tokens",
+        "Verified full protocol interoperability against OCPP compliance test suites with multiple hardware vendors"
+      ],
+      "results": [
+        { "label": "Network Uptime", "value": "99.95%" },
+        { "label": "Connected Stations", "value": "2,000+" },
+        { "label": "Telemetry Ingestion", "value": "50k msgs/min" },
+        { "label": "OCPP Standard", "value": "1.6-J Certified" }
+      ]
+    },
+    "publishedAt": "2024-02-01T00:00:00Z"
   }
 ]
