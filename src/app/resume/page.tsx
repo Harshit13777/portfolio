@@ -9,16 +9,56 @@ import {
   MapPin, 
   Mail, 
   CheckCircle2,
-  Calendar
+  Calendar,
+  Sparkles,
+  Wifi,
+  Zap,
+  Radio,
+  Cpu,
+  Layers
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/Icons';
-import { WORK_EXPERIENCE, TECHNICAL_SKILLS, SOCIAL_LINKS } from '@/data/experience';
+import { WORK_EXPERIENCE, SOCIAL_LINKS } from '@/data/experience';
 import { Avatar } from '@/components/ui/Avatar';
+import skillsData from '@/data/skills.json';
+import { SkillCategoryTrack, SkillItem } from '@/types/skills';
 
 export const metadata: Metadata = {
   title: 'Resume & Verified Experience | Harshit Soni',
-  description: 'Technical resume of Harshit Soni: Full-Stack & IoT / Mobile Software Engineer. Employment history at EVI Technologies, Veblika Software, and skills matrix.',
+  description: 'Technical resume of Harshit Soni: Full-Stack & IoT / Mobile Software Engineer. Employment history at EVI Technologies, Veblika Software, and unified skills matrix.',
 };
+
+const typedSkills: SkillCategoryTrack[] = skillsData as SkillCategoryTrack[];
+
+function renderSkillIcon(item: SkillItem) {
+  if (item.iconUrl) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={item.iconUrl}
+        alt={item.name}
+        className="w-3.5 h-3.5 object-contain shrink-0"
+        loading="lazy"
+      />
+    );
+  }
+
+  const iconColor = item.iconColor || 'currentColor';
+  switch (item.fallbackIcon) {
+    case 'wifi':
+      return <Wifi className="w-3.5 h-3.5 shrink-0" style={{ color: iconColor }} />;
+    case 'zap':
+      return <Zap className="w-3.5 h-3.5 shrink-0" style={{ color: iconColor }} />;
+    case 'radio':
+      return <Radio className="w-3.5 h-3.5 shrink-0" style={{ color: iconColor }} />;
+    case 'cpu':
+      return <Cpu className="w-3.5 h-3.5 shrink-0" style={{ color: iconColor }} />;
+    case 'layers':
+      return <Layers className="w-3.5 h-3.5 shrink-0" style={{ color: iconColor }} />;
+    default:
+      return <Code className="w-3.5 h-3.5 shrink-0" style={{ color: iconColor }} />;
+  }
+}
 
 export default function ResumePage() {
   return (
@@ -64,7 +104,7 @@ export default function ResumePage() {
           <a
             href="/resume.pdf"
             download
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:text-zinc-950 font-semibold text-xs shadow-md transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-accent hover:bg-accent-hover text-accent-foreground font-semibold text-xs shadow-md transition-colors"
           >
             <Download className="w-4 h-4" />
             Download PDF Resume
@@ -92,30 +132,42 @@ export default function ResumePage() {
         </div>
       </div>
 
-      {/* 1. Professional Experience */}
+      {/* 1. Professional Experience (Full Detailed Timeline & Accomplishments) */}
       <section className="space-y-6">
-        <div className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider font-mono">
-          <Briefcase className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-          <span>Professional Experience</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider font-mono">
+            <Briefcase className="w-4 h-4 text-accent" />
+            <span>Professional Experience & Detailed Accomplishments</span>
+          </div>
+          <span className="text-xs text-zinc-500 font-mono hidden sm:inline">
+            Chronological Order
+          </span>
         </div>
 
-        <div className="space-y-8 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-zinc-200 dark:before:bg-zinc-800">
+        <div className="space-y-8">
           {WORK_EXPERIENCE.map((exp) => (
-            <div key={exp.id} className="relative pl-10 space-y-3">
-              {/* Dot */}
-              <div className="absolute left-2 top-1.5 w-3.5 h-3.5 rounded-full bg-slate-50 dark:bg-zinc-950 border-2 border-emerald-600 dark:border-emerald-500" />
-
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+            <div
+              key={exp.id}
+              className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-zinc-800 space-y-4 shadow-sm"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-zinc-100 dark:border-zinc-800 pb-3">
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100">
-                    {exp.role}
-                  </h3>
-                  <p className="text-xs sm:text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                    {exp.company} <span className="text-zinc-500 dark:text-zinc-400 font-normal">({exp.location})</span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                      {exp.role}
+                    </h3>
+                    {exp.current && (
+                      <span className="px-2 py-0.5 text-[10px] rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-semibold">
+                        Current
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-accent font-semibold mt-0.5">
+                    {exp.company} • {exp.location}
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-zinc-600 dark:text-zinc-400 px-2.5 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="px-2.5 py-0.5 text-xs rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/60 font-mono">
                     {exp.period}
                   </span>
                 </div>
@@ -125,22 +177,30 @@ export default function ResumePage() {
                 {exp.summary}
               </p>
 
-              {/* Achievements */}
-              <ul className="space-y-2 pt-1">
-                {exp.achievements.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-xs text-zinc-700 dark:text-zinc-300">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              {/* Complete Detailed Responsibilities & Accomplishments */}
+              <div className="space-y-2 pt-1">
+                <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
+                  Responsibilities & Key Deliverables ({exp.achievements.length})
+                </span>
+                <ul className="space-y-2 pt-1">
+                  {exp.achievements.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-start gap-2.5 text-xs text-zinc-700 dark:text-zinc-300"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
+                      <span className="leading-relaxed">{item.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
               {/* Technologies */}
-              <div className="flex flex-wrap gap-1.5 pt-2">
+              <div className="flex flex-wrap gap-1.5 pt-3 border-t border-zinc-100 dark:border-zinc-800">
                 {exp.technologies.map((t) => (
                   <span
                     key={t}
-                    className="px-2 py-0.5 text-[11px] rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800/80 font-medium"
+                    className="px-2.5 py-0.5 text-[11px] rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800/80 font-medium"
                   >
                     {t}
                   </span>
@@ -151,39 +211,47 @@ export default function ResumePage() {
         </div>
       </section>
 
-      {/* 2. Technical Skills Matrix */}
+      {/* 2. Technical Competencies Matrix (Unified directly from skills.json) */}
       <section className="space-y-6 pt-6 border-t border-zinc-200 dark:border-zinc-800">
-        <div className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider font-mono">
-          <Code className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-          <span>Technical Competencies & Matrix</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider font-mono">
+            <Code className="w-4 h-4 text-accent" />
+            <span>Technical Competencies (Unified Ecosystem)</span>
+          </div>
+          <span className="text-xs text-zinc-500 font-mono hidden sm:inline">
+            Directly synced from skills.json
+          </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {TECHNICAL_SKILLS.map((cat, idx) => (
+          {typedSkills.map((cat) => (
             <div
-              key={idx}
-              className="p-5 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-zinc-800 space-y-3 shadow-xs"
+              key={cat.id}
+              className="p-5 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-zinc-800 space-y-3 shadow-xs"
             >
-              <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                {cat.title}
-              </h4>
-              <div className="space-y-2">
-                {cat.skills.map((skill) => (
+              <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-accent">
+                  {cat.category}
+                </h4>
+                <span className="text-[10px] text-zinc-500 font-mono">
+                  {cat.items.length} Technologies
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-2 pt-1">
+                {cat.items.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center justify-between text-xs py-1 border-b border-zinc-100 dark:border-zinc-800/40 last:border-0"
+                    className="flex items-center justify-between text-xs py-1 px-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200/60 dark:border-zinc-800/60"
                   >
-                    <span className="text-zinc-800 dark:text-zinc-200 font-medium">{skill.name}</span>
-                    <span
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-medium ${
-                        skill.level === 'Expert'
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30'
-                          : skill.level === 'Advanced'
-                          ? 'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-500/15 dark:text-blue-400 dark:border-blue-500/30'
-                          : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'
-                      }`}
-                    >
-                      {skill.level}
+                    <div className="flex items-center gap-2">
+                      {renderSkillIcon(skill)}
+                      <span className="text-zinc-800 dark:text-zinc-200 font-medium">
+                        {skill.name}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-accent-muted text-accent font-semibold">
+                      Production
                     </span>
                   </div>
                 ))}
@@ -196,11 +264,11 @@ export default function ResumePage() {
       {/* 3. Education */}
       <section className="space-y-4 pt-6 border-t border-zinc-200 dark:border-zinc-800">
         <div className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider font-mono">
-          <GraduationCap className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          <GraduationCap className="w-4 h-4 text-accent" />
           <span>Education & Credentials</span>
         </div>
 
-        <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs">
+        <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs">
           <div>
             <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
               Bachelor of Technology (B.Tech) in Computer Science & Engineering
@@ -216,7 +284,7 @@ export default function ResumePage() {
       </section>
 
       {/* Recruiter CTA */}
-      <div className="p-8 rounded-3xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-500/20 text-center space-y-3">
+      <div className="p-8 rounded-3xl bg-zinc-100 dark:bg-zinc-900/70 border border-zinc-200 dark:border-zinc-800 text-center space-y-3">
         <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Looking for a Senior Engineer?</h3>
         <p className="text-xs text-zinc-600 dark:text-zinc-400 max-w-md mx-auto">
           I am currently considering select technical roles and long-term contracts. Let’s connect to discuss how I can contribute to your engineering team.
@@ -224,7 +292,7 @@ export default function ResumePage() {
         <div className="pt-2">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:text-zinc-950 font-semibold text-xs shadow-md transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-accent hover:bg-accent-hover text-accent-foreground font-semibold text-xs shadow-md transition-colors"
           >
             Initiate Interview Conversation
           </Link>

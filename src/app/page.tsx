@@ -8,6 +8,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { SkillsTicker } from '@/components/home/SkillsTicker';
 import { FeaturedProjectsSection } from '@/components/home/FeaturedProjectsSection';
 import { TestimonialsRotator } from '@/components/home/TestimonialsRotator';
+import { ExperienceTimeline } from '@/components/home/ExperienceTimeline';
 
 export default async function HomePage() {
   const featuredProjects = await getFeaturedProjects();
@@ -91,67 +92,8 @@ export default async function HomePage() {
         <TestimonialsRotator testimonials={testimonials} />
       )}
 
-      {/* 6. Career Experience Timeline */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-          <div>
-            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
-              Track Record
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 mt-2">
-              Work Experience Timeline
-            </h2>
-          </div>
-          <Link
-            href="/resume"
-            className="text-xs font-semibold text-accent hover:underline"
-          >
-            View Full Resume & Skills Matrix →
-          </Link>
-        </div>
-
-        {/* Timeline List */}
-        <div className="relative pl-6 sm:pl-8 border-l-2 border-zinc-200 dark:border-zinc-800 space-y-6">
-          {WORK_EXPERIENCE.map((exp) => (
-            <div
-              key={exp.id}
-              className="relative group p-6 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-zinc-800 hover:border-accent/40 dark:hover:border-zinc-700 transition-all shadow-xs"
-            >
-              {/* Timeline Indicator Dot */}
-              <div className="absolute -left-[31px] sm:-left-[39px] top-6 w-3.5 h-3.5 rounded-full bg-white dark:bg-zinc-950 border-2 border-accent group-hover:scale-125 transition-transform" />
-
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                <div>
-                  <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-accent transition-colors">
-                    {exp.role}
-                  </h3>
-                  <p className="text-xs text-accent font-semibold">
-                    {exp.company} • {exp.location}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 text-xs rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/60 font-mono">
-                    {exp.period}
-                  </span>
-                </div>
-              </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-3xl mb-3">
-                {exp.summary}
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                {exp.technologies.map((t) => (
-                  <span
-                    key={t}
-                    className="px-2 py-0.5 text-[11px] rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 font-medium"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* 6. Career Experience Timeline (Featured Impact Bullets) */}
+      <ExperienceTimeline />
 
       {/* 7. Call To Action Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
