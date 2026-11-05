@@ -41,6 +41,8 @@ interface StageSlotCardProps {
   totalCards: number;
   smoothProgress: MotionValue<number>;
   slotDistance: number;
+  isCurrent: boolean;
+  onSelectCard: (idx: number) => void;
   onOpenVideo: (url: string, title: string) => void;
   isArchitectureExpanded: boolean;
   onToggleArchitecture: () => void;
@@ -52,22 +54,26 @@ function StageSlotCard({
   totalCards,
   smoothProgress,
   slotDistance,
+  isCurrent,
+  onSelectCard,
   onOpenVideo,
   isArchitectureExpanded,
   onToggleArchitecture,
 }: StageSlotCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Desktop subtle mouse cursor 3D tilt tracking
+  // Desktop tactile 3D tilt tracking (just like timeline section)
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const tiltRotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [2.5, -2.5]), {
-    stiffness: 280,
-    damping: 28,
+
+  // Smooth springs for 3D cursor tilt
+  const tiltRotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6.5, -6.5]), {
+    stiffness: 300,
+    damping: 26,
   });
-  const tiltRotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-2.5, 2.5]), {
-    stiffness: 280,
-    damping: 28,
+  const tiltRotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6.5, 6.5]), {
+    stiffness: 300,
+    damping: 26,
   });
 
   const [mousePixelPos, setMousePixelPos] = useState<{ x: number; y: number } | null>(null);
@@ -91,6 +97,15 @@ function StageSlotCard({
     mouseY.set(0);
     setMousePixelPos(null);
     setIsHovered(false);
+  };
+
+  // Clicking on a card that is not in the middle automatically brings it into the middle!
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (!isCurrent) {
+      e.preventDefault();
+      e.stopPropagation();
+      onSelectCard(idx);
+    }
   };
 
   const architecturePoints =
@@ -159,6 +174,11 @@ function StageSlotCard({
     return clamped * -8;
   });
 
+  // Combine slot offset tilt with cursor hover tilt
+  const combinedRotateY = useTransform([depthRotateY, tiltRotateY], ([depth, tilt]) => {
+    return (depth as number) + (tilt as number);
+  });
+
   // Vertical drop for receded cards
   const depthY = useTransform(offset, (off) => {
     const dist = Math.abs(off);
@@ -173,34 +193,73 @@ function StageSlotCard({
         y: depthY,
         zIndex,
         opacity,
+        perspective: 1200,
+        transformStyle: 'preserve-3d',
         pointerEvents: pointerEvents as unknown as React.CSSProperties['pointerEvents'],
       }}
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[84vw] sm:w-[62vw] lg:w-[50vw] max-w-[640px] min-w-[320px] sm:min-w-[460px] h-[70vh] sm:h-[74vh] lg:h-[76vh] select-none"
     >
       <motion.div
         ref={cardRef}
+        onClick={handleCardClick}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
+        whileHover={{
+          y: isCurrent ? -8 : -4,
+          z: isCurrent ? 50 : 25,
+        }}
+        whileTap={{ scale: isCurrent ? 0.99 : 0.96 }}
         style={{
           scale,
           boxShadow,
           borderColor,
           rotateX: tiltRotateX,
-          rotateY: depthRotateY,
+          rotateY: combinedRotateY,
           transformPerspective: 1200,
           transformStyle: 'preserve-3d',
+          transformOrigin: 'center center',
         }}
-        className="relative h-full w-full rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-2xl transition-colors duration-300 overflow-hidden flex flex-col justify-between"
+        transition={{
+          type: 'spring',
+          stiffness: 260,
+          damping: 22,
+        }}
+        className={`relative h-full w-full rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-2xl transition-colors duration-300 overflow-hidden flex flex-col justify-between ${
+          !isCurrent ? 'cursor-pointer hover:border-accent/60 group/slot' : ''
+        }`}
       >
-        {/* Ambient Radial Spotlight following Cursor */}
+        {/* Ambient Halo on Focused Card */}
+        {isCurrent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.22 }}
+            transition={{ duration: 0.5 }}
+            className="pointer-events-none absolute inset-0 z-10"
+            style={{
+              background:
+                'radial-gradient(900px circle at top left, var(--accent), transparent 65%)',
+            }}
+          />
+        )}
+
+        {/* Ambient Cursor Spotlight Follower */}
         {isHovered && mousePixelPos && (
           <div
-            className="pointer-events-none absolute -inset-px opacity-25 dark:opacity-40 transition-opacity duration-300 z-10"
+            className="pointer-events-none absolute -inset-px opacity-35 dark:opacity-50 transition-opacity duration-200 z-10"
             style={{
               background: `radial-gradient(450px circle at ${mousePixelPos.x}px ${mousePixelPos.y}px, var(--accent), transparent 70%)`,
             }}
           />
+        )}
+
+        {/* Click-to-focus prompt badge on side cards */}
+        {!isCurrent && (
+          <div className="absolute top-3 right-3 z-30 opacity-0 group-hover/slot:opacity-100 transition-opacity duration-200">
+            <span className="px-2.5 py-1 rounded-full bg-accent text-accent-foreground text-[10px] font-mono font-bold shadow-md">
+              Click to view in middle
+            </span>
+          </div>
         )}
 
         <div className="relative z-20 grid grid-cols-1 md:grid-cols-12 gap-0 h-full overflow-y-auto md:overflow-hidden">
@@ -234,7 +293,12 @@ function StageSlotCard({
               <div className="relative p-3.5 z-10 mt-auto">
                 <button
                   type="button"
-                  onClick={() => onOpenVideo(project.links.videoUrl!, project.title)}
+                  onClick={(e) => {
+                    if (isCurrent) {
+                      e.stopPropagation();
+                      onOpenVideo(project.links.videoUrl!, project.title);
+                    }
+                  }}
                   className="group/btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-accent text-accent-foreground text-xs font-bold shadow-xl transition-transform hover:scale-105 cursor-pointer"
                 >
                   <span className="absolute -inset-1 rounded-xl bg-accent/40 animate-ping pointer-events-none" />
@@ -261,7 +325,14 @@ function StageSlotCard({
               </div>
 
               <h3 className="text-lg sm:text-xl lg:text-2xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-accent transition-colors leading-snug">
-                <Link href={`/projects/${project.slug}`}>
+                <Link
+                  href={`/projects/${project.slug}`}
+                  onClick={(e) => {
+                    if (!isCurrent) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
                   {project.title}
                 </Link>
               </h3>
@@ -292,7 +363,12 @@ function StageSlotCard({
                 <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800/80">
                   <button
                     type="button"
-                    onClick={onToggleArchitecture}
+                    onClick={(e) => {
+                      if (isCurrent) {
+                        e.stopPropagation();
+                        onToggleArchitecture();
+                      }
+                    }}
                     className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent hover:underline cursor-pointer mb-1.5"
                   >
                     <Layers className="w-3.5 h-3.5" />
@@ -334,6 +410,7 @@ function StageSlotCard({
                     href={project.links.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => !isCurrent && e.stopPropagation()}
                     className="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors"
                     title="Live Production App"
                   >
@@ -345,6 +422,7 @@ function StageSlotCard({
                     href={project.links.playStoreUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => !isCurrent && e.stopPropagation()}
                     className="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors"
                     title="Google Play Store"
                   >
@@ -356,6 +434,7 @@ function StageSlotCard({
                     href={project.links.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => !isCurrent && e.stopPropagation()}
                     className="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors"
                     title="GitHub Repository"
                   >
@@ -367,6 +446,7 @@ function StageSlotCard({
                     href={project.links.linkedInUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => !isCurrent && e.stopPropagation()}
                     className="p-2 rounded-xl bg-zinc-100 hover:bg-blue-50 dark:bg-zinc-800 dark:hover:bg-blue-900/40 text-zinc-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     title="LinkedIn Case Study"
                   >
@@ -377,6 +457,7 @@ function StageSlotCard({
 
               <Link
                 href={`/projects/${project.slug}`}
+                onClick={(e) => !isCurrent && e.stopPropagation()}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white text-xs font-bold transition-all shadow-md group/btn"
               >
                 <span>Case Study</span>
@@ -446,22 +527,22 @@ export function FeaturedProjectsSection({ projects }: { projects: ProjectSummary
     }));
   };
 
-  const handlePrev = () => {
+  // Smoothly scrolls the window so the target project card centers in the middle
+  const scrollToProject = (targetIdx: number) => {
     if (!containerRef.current) return;
-    const targetIdx = Math.max(0, currentIndex - 1);
+    const clampedIdx = Math.max(0, Math.min(projects.length - 1, targetIdx));
     const containerTop = containerRef.current.offsetTop;
     const containerHeight = containerRef.current.offsetHeight - window.innerHeight;
-    const targetScrollY = containerTop + (targetIdx / (projects.length - 1)) * containerHeight;
+    const targetScrollY = containerTop + (clampedIdx / Math.max(1, projects.length - 1)) * containerHeight;
     window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
   };
 
+  const handlePrev = () => {
+    scrollToProject(currentIndex - 1);
+  };
+
   const handleNext = () => {
-    if (!containerRef.current) return;
-    const targetIdx = Math.min(projects.length - 1, currentIndex + 1);
-    const containerTop = containerRef.current.offsetTop;
-    const containerHeight = containerRef.current.offsetHeight - window.innerHeight;
-    const targetScrollY = containerTop + (targetIdx / (projects.length - 1)) * containerHeight;
-    window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+    scrollToProject(currentIndex + 1);
   };
 
   if (!projects || projects.length === 0) return null;
@@ -486,16 +567,16 @@ export function FeaturedProjectsSection({ projects }: { projects: ProjectSummary
                 Section 03 / Production Systems
               </span>
               <span className="hidden sm:inline text-xs text-zinc-400 font-mono">•</span>
-              <span className="hidden sm:inline text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate max-w-[280px]">
+              <span className="hidden sm:inline text-xs text-zinc-300 font-medium truncate max-w-[280px]">
                 {projects[currentIndex]?.title}
               </span>
             </div>
 
             {/* Compact Right Controls & Counter */}
             <div className="flex items-center gap-2.5">
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300 shadow-sm">
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-mono font-bold text-zinc-300 shadow-sm">
                 <span className="text-accent">{String(currentIndex + 1).padStart(2, '0')}</span>
-                <span className="text-zinc-400">/</span>
+                <span className="text-zinc-500">/</span>
                 <span>{String(projects.length).padStart(2, '0')}</span>
               </div>
 
@@ -505,7 +586,7 @@ export function FeaturedProjectsSection({ projects }: { projects: ProjectSummary
                   type="button"
                   onClick={handlePrev}
                   disabled={currentIndex === 0}
-                  className="p-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
                   aria-label="Previous Project"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
@@ -514,7 +595,7 @@ export function FeaturedProjectsSection({ projects }: { projects: ProjectSummary
                   type="button"
                   onClick={handleNext}
                   disabled={currentIndex === projects.length - 1}
-                  className="p-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
                   aria-label="Next Project"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -523,7 +604,7 @@ export function FeaturedProjectsSection({ projects }: { projects: ProjectSummary
 
               <Link
                 href="/projects"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white text-xs font-semibold transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-zinc-100 text-zinc-950 hover:bg-white text-xs font-semibold transition-colors"
               >
                 <span>All Projects</span>
                 <ArrowRight className="w-3 h-3" />
@@ -532,7 +613,7 @@ export function FeaturedProjectsSection({ projects }: { projects: ProjectSummary
           </div>
 
           {/* Minimal Top Loading Bar with Radiant Accent Glow */}
-          <div className="w-full h-1.5 bg-zinc-200/80 dark:bg-zinc-800/80 rounded-full overflow-hidden shadow-inner">
+          <div className="w-full h-1.5 bg-zinc-800/80 rounded-full overflow-hidden shadow-inner">
             <motion.div
               style={{ scaleX: scrollYProgress, transformOrigin: '0%' }}
               className="h-full bg-accent shadow-[0_0_12px_var(--accent)]"
@@ -553,6 +634,8 @@ export function FeaturedProjectsSection({ projects }: { projects: ProjectSummary
               totalCards={projects.length}
               smoothProgress={smoothProgress}
               slotDistance={slotDistance}
+              isCurrent={idx === currentIndex}
+              onSelectCard={scrollToProject}
               onOpenVideo={(url, title) => setActiveVideo({ url, title })}
               isArchitectureExpanded={!!expandedArchitecture[project.slug]}
               onToggleArchitecture={() => toggleArchitecture(project.slug)}
